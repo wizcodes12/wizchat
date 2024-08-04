@@ -9,7 +9,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "*",
+    origin: "https://66af1a5788259249806a86f1--dynamic-narwhal-1ae0e0.netlify.app/",
     methods: ["GET", "POST"]
   }
 });
