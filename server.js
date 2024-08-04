@@ -2,7 +2,6 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
-const path = require('path');
 
 const app = express();
 app.use(cors());
@@ -10,13 +9,10 @@ app.use(cors());
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "*",
+    origin: "*",  // You might want to change this to your Netlify URL later
     methods: ["GET", "POST"]
   }
 });
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../client/build')));
 
 const users = new Map();
 
@@ -37,12 +33,6 @@ io.on('connection', (socket) => {
     io.emit('userList', Array.from(users.values()));
     console.log('Client disconnected');
   });
-});
-
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
